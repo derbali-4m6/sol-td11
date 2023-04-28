@@ -1,6 +1,8 @@
 package ca.qc.sol_td11;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,6 +22,8 @@ public class MusicPlayerActivity extends AppCompatActivity {
     private RecyclerView rvSongs;
     SongAdapter adapter;
 
+    Intent intent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,8 +33,14 @@ public class MusicPlayerActivity extends AppCompatActivity {
         //init recyclerView
         LinearLayoutManager manager = new LinearLayoutManager(this);
         rvSongs.setLayoutManager(manager);
-        adapter = new SongAdapter(songs, this);
+
+        //créer un service
+        intent = new Intent(this, MusicService.class);
+
+        adapter = new SongAdapter(songs, this, intent);
         rvSongs.setAdapter(adapter);
+
+
     }
 
     private void initSongs() {
@@ -44,5 +54,9 @@ public class MusicPlayerActivity extends AppCompatActivity {
     private void initView() {
         musicTitle = (TextView) findViewById(R.id.music_title);
         rvSongs = (RecyclerView) findViewById(R.id.rv_songs);
+    }
+
+    public void stopSong(View view) {
+       stopService(intent);
     }
 }
