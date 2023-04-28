@@ -36,7 +36,7 @@ public class MusicPlayerActivity extends AppCompatActivity {
 
         //créer un service
         intent = new Intent(this, MusicService.class);
-        adapter = new SongAdapter(songs, this, intent);
+        adapter = new SongAdapter(songs, this, intent, musicTitle);
         rvSongs.setAdapter(adapter);
     }
 
@@ -54,6 +54,8 @@ public class MusicPlayerActivity extends AppCompatActivity {
     }
 
     public void stopSong(View view) {
-       stopService(intent);
+        if (intent != null)
+            stopService(intent);
+        musicTitle.setText("");
     }
 }

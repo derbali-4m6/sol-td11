@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,10 +23,13 @@ public class SongAdapter extends RecyclerView.Adapter<SongViewHolder> {
     List<Song> songs;
     Context context;
     Intent intent;
-    public SongAdapter(List<Song> songs, Context context, Intent intent) {
+    TextView lblSong;
+    int songIndex = -1;
+    public SongAdapter(List<Song> songs, Context context, Intent intent, TextView lblSong) {
         this.songs = songs;
         this.context = context;
         this.intent = intent;
+        this.lblSong = lblSong;
     }
 
     @NonNull
@@ -38,22 +42,22 @@ public class SongAdapter extends RecyclerView.Adapter<SongViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull SongViewHolder holder, int position) {
         holder.songTitle.setText(this.songs.get(position).getTitle());
-        final int index  = position;
+        int index = position;
         holder.songCheckBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(((CompoundButton) view).isChecked()){
+                    songIndex = index;
                     Log.d("Music", "Checked");
                     context.stopService(intent);
                     intent.putExtra("song", songs.get(index));
                     context.startService(intent);
-                } else {
-                    Log.d("Music", "Un-Checked");
-                    context.stopService(intent);
+                    lblSong.setText(songs.get(index).getTitle());
                 }
+                notifyDataSetChanged();
             }
         });
-
+        holder.songCheckBox.setChecked(position == songIndex);
     }
 
     @Override
