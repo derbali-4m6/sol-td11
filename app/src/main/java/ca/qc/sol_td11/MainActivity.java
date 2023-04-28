@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity{
     }
 
 
-
-
-
+    public void goMusicPlayer(View view) {
+        startActivity(new Intent(this, MusicPlayerActivity.class));
+    }
 }
