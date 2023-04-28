@@ -36,11 +36,8 @@ public class MusicPlayerActivity extends AppCompatActivity {
 
         //créer un service
         intent = new Intent(this, MusicService.class);
-
         adapter = new SongAdapter(songs, this, intent);
         rvSongs.setAdapter(adapter);
-
-
     }
 
     private void initSongs() {

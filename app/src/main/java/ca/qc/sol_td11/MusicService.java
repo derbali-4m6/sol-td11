@@ -26,13 +26,16 @@ public class MusicService extends Service {
         Log.d("Music", song.getTitle());
         mediaPlayer = MediaPlayer.create(this, song.getRawID());
         mediaPlayer.start();
-        return super.onStartCommand(intent, flags, startId);
+        return START_STICKY;
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mediaPlayer.stop();
+        if(mediaPlayer != null){
+            mediaPlayer.stop();
+            mediaPlayer = null;
+        }
         stopSelf();
     }
 }
